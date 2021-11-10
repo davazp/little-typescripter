@@ -31,19 +31,41 @@ const questions: Question[] = [
       </p>
     ),
   },
+  {
+    question: <p>Is it the only type?</p>,
+    answer: (
+      <div>
+        <p>
+          Well, you could also use <code>number | null</code>, for example.
+        </p>
+      </div>
+    ),
+  },
 ];
 
 const Home: NextPage = () => {
   const [step, setStep] = useState(0);
 
-  console.log({ step });
+  useEffect(() => {
+    const raw = localStorage.getItem("step");
+    if (raw) {
+      setStep(JSON.parse(raw));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("step", JSON.stringify(step));
+  }, [step]);
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
+      console.log(e);
       switch (e.key) {
+        case " ":
         case "ArrowRight":
-          setStep((s) => s + 1);
+          setStep((s) => Math.min(questions.length * 2 - 1, s + 1));
           return;
+        case "Backspace":
         case "ArrowLeft":
           setStep((s) => Math.max(0, s - 1));
           return;
@@ -54,6 +76,11 @@ const Home: NextPage = () => {
       document.removeEventListener("keydown", handler);
     };
   }, []);
+
+  const questionNumber = (step / 2) | 0;
+  const isAnswer = step % 2 === 1;
+
+  console.log({ step, questionNumber, isAnswer });
 
   return (
     <div className={styles.container}>
@@ -70,14 +97,19 @@ const Home: NextPage = () => {
         <br />
 
         {questions
-          .slice(0, (step / 2 || 0) + 1)
-          .map(({ question, answer }, i) => {
+          .slice(0, questionNumber + 1)
+          .map(({ question, answer }, currentQuestion) => {
+            const pastQuestion = currentQuestion < questionNumber;
             return (
               <Question
-                key={i}
+                key={currentQuestion}
                 question={question}
-                showAnswer={step > i * 2}
+                showAnswer={
+                  currentQuestion < questionNumber ||
+                  (currentQuestion === questionNumber && isAnswer)
+                }
                 answer={answer}
+                past={pastQuestion}
               />
             );
           })}
@@ -90,9 +122,10 @@ interface QuestionProps {
   question: JSX.Element;
   answer: JSX.Element;
   showAnswer: boolean;
+  past: boolean;
 }
 
-function Question({ question, answer, showAnswer }: QuestionProps) {
+function Question({ question, answer, showAnswer, past }: QuestionProps) {
   return (
     <div className="row">
       <div className="question">{question}</div>
@@ -106,6 +139,7 @@ function Question({ question, answer, showAnswer }: QuestionProps) {
             min-height: 50px;
             padding-top: 10px;
             padding-bottom: 10px;
+            opacity: ${past ? 0.3 : 1};
           }
 
           .question,
