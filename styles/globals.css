@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+pre {
+    margin: 0;
+}
+
+code {
+    color: rgb(92, 38, 153);
+}

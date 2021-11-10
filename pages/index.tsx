@@ -1,9 +1,60 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import style from "react-syntax-highlighter/dist/cjs/styles/hljs/xcode";
+import { useEffect, useState } from "react";
+
+interface Question {
+  question: JSX.Element;
+  answer: JSX.Element;
+}
+
+const questions: Question[] = [
+  {
+    question: <p>Hello!</p>,
+    answer: <p>Hi!</p>,
+  },
+  {
+    question: <p>What is the type of 42?</p>,
+    answer: (
+      <p>
+        That is easy! it is <code>number</code>
+      </p>
+    ),
+  },
+  {
+    question: <p>Is it the only type?</p>,
+    answer: (
+      <p>
+        Well, you could also use <code>number | null</code>, for example.
+      </p>
+    ),
+  },
+];
 
 const Home: NextPage = () => {
+  const [step, setStep] = useState(0);
+
+  console.log({ step });
+
+  useEffect(() => {
+    function handler(e: KeyboardEvent) {
+      switch (e.key) {
+        case "ArrowRight":
+          setStep((s) => s + 1);
+          return;
+        case "ArrowLeft":
+          setStep((s) => Math.max(0, s - 1));
+          return;
+      }
+    }
+    document.addEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("keydown", handler);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,60 +64,70 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className={styles.title}>The Little Typescripter</h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        <br />
+        <br />
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        {questions
+          .slice(0, (step / 2 || 0) + 1)
+          .map(({ question, answer }, i) => {
+            return (
+              <Question
+                key={i}
+                question={question}
+                showAnswer={step > i * 2}
+                answer={answer}
+              />
+            );
+          })}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
-  )
+  );
+};
+
+interface QuestionProps {
+  question: JSX.Element;
+  answer: JSX.Element;
+  showAnswer: boolean;
 }
 
-export default Home
+function Question({ question, answer, showAnswer }: QuestionProps) {
+  return (
+    <div className="row">
+      <div className="question">{question}</div>
+      <div className="answer">{showAnswer && answer}</div>
+      <style jsx>
+        {`
+          .row {
+            display: flex;
+            width: 100%;
+            border-bottom: 1px solid #c5c5c5;
+            min-height: 50px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+          }
+
+          .question,
+          .answer {
+            width: 100%;
+          }
+        `}
+      </style>
+    </div>
+  );
+}
+
+const TS: React.FC = ({ children }) => {
+  return (
+    <SyntaxHighlighter
+      customStyle={{ display: "inline-block", padding: 0, fontSize: "16px" }}
+      language="typescript"
+      style={style}
+    >
+      {children}
+    </SyntaxHighlighter>
+  );
+};
+
+export default Home;
