@@ -135,7 +135,7 @@ function Question({ question, answer, showAnswer, past }: QuestionProps) {
           .row {
             display: flex;
             width: 100%;
-            border-bottom: 1px solid #c5c5c5;
+            border-bottom: 1px solid #e8e8e8;
             min-height: 50px;
             padding-top: 10px;
             padding-bottom: 10px;
