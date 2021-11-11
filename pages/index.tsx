@@ -469,6 +469,58 @@ type SideDish = Bread | Butter
   },
 
   {
+    question: <p>Can you fix the definitions to prevent this?</p>,
+    answer: <p>Let me think</p>,
+  },
+
+  {
+    question: <p></p>,
+    answer: (
+      <p>
+        I think I fixed it!
+        <br />
+        <br />
+        <TS>{`
+type Bread = {
+  food: 'bread',// <-----
+  type: 'sour' | 'corn' | 'brioche',
+  weight: number
+}
+
+type Butter = {
+  food: 'butter',// <-----
+  salty: boolean
+}
+
+type SideDish = Bread | Butter
+`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: <p>Excellent! Can you explain why it works?</p>,
+    answer: (
+      <p>
+        {`Because it is imposible to have a value that is `}
+        <code>Bread & Butter</code>, <br />
+        because <code>food</code> would have type <code>never</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        This pattern is called <b>discriminated union</b>.<br />
+        <br />
+        Now Enjoy your <code>[Bread, Butter]</code>.
+      </p>
+    ),
+    answer: <p></p>,
+  },
+
+  {
     section: "Fining dining at Curry & Howard's",
   },
 
