@@ -318,6 +318,7 @@ const x: 42 = 41;  // error
           {`
 type T = {x: number, z: number}
        | {y: number, z: number}
+
 const obj: T = {x: 1, y: 2}
 `}
         </TS>{" "}
@@ -361,6 +362,7 @@ const obj: T = {x: 1, y: 2}
           {`
 type T = {x: number, z: number}
        | {y: number, z: number}
+
 const obj: T = {x: 1, y: 2, z: 0}
 `}
         </TS>
@@ -416,6 +418,18 @@ const Home: NextPage = () => {
     return () => {
       document.removeEventListener("keydown", handler);
     };
+  }, []);
+
+  useEffect(() => {
+    function handler() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    }
+    document.addEventListener("dblclick", handler);
+    return () => document.removeEventListener("dblclick", handler);
   }, []);
 
   const questionNumber = (step / 2) | 0;
