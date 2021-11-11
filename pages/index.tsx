@@ -549,9 +549,6 @@ type SideDish = Bread | Butter
     answer: <p></p>,
   },
 
-  {
-    section: "Spicy Curry at Howard's",
-  },
 
   { section: "The Promise of Pizza" },
 
@@ -733,19 +730,30 @@ async function getPizza(): Promise<Pizza> {
   },
 
   {
+    section: "Spicy Curry at Howard's",
+  },
+  {
+    question: <p>We can leave this for another time!</p>,
+    answer: <p></p>
+  },
+
+  {
     section: "Enjoy your food!",
   },
 ];
 
 const Home: NextPage = () => {
   const [step, setStep] = useState(0);
-
   const [highlights, setHighlights] = useState<number[]>([]);
 
   const reload = useCallback(() => {
     const raw = localStorage.getItem("step");
     if (raw) {
       setStep(JSON.parse(raw));
+    }
+    const rawHighlight = localStorage.getItem("highlights");
+    if (rawHighlight) {
+      setHighlights(JSON.parse(rawHighlight));
     }
   }, []);
 
@@ -758,6 +766,10 @@ const Home: NextPage = () => {
     setHighlights([]);
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
+
+  useEffect(()=>{
+    localStorage.setItem('highlights', JSON.stringify(highlights));
+  }, [highlights])
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
