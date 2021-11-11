@@ -543,6 +543,185 @@ type SideDish = Bread | Butter
     section: "Spicy Curry at Howard's",
   },
 
+  { section: "The Promise of Pizza" },
+
+  {
+    question: <p>Time to order some pizza!</p>,
+    answer: <p>Sounds simple enough.</p>,
+  },
+  {
+    question: (
+      <p>
+        Let's start with placing the order. What does <code>fetch()</code>{" "}
+        return?
+      </p>
+    ),
+    answer: (
+      <p>
+        It's a <code>Promise</code>
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        Indeed! But what is inside of that <code>Promise</code> wrapper?
+      </p>
+    ),
+    answer: (
+      <p>
+        It depends on what is being fetched, so <code>{"Promise<any>"}</code>
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        What if we call <code>fetch("UberEats/pizza")</code>?
+      </p>
+    ),
+    answer: (
+      <p>
+        Easy, it's <code>{"Promise<Pizza>"}</code> now
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        So this should be correct:
+        <br />
+        <TS>{`
+function getPizza(): Promise<Pizza> {
+  return fetch("UberEats/pizza")
+}
+
+function eatPizza(bite: Pizza): void {
+  console.log("Nom!")
+}
+
+const pizza = await getPizza()
+eatPizza(pizza)`}</TS>
+      </p>
+    ),
+    answer: <p>Looks good to me!</p>,
+  },
+  {
+    question: <p>What if the restaurant mixes up your order?</p>,
+    answer: <p>No worries, it's all type checked!</p>,
+  },
+  {
+    question: <p>Does TS also check it at run-time?</p>,
+    answer: <p>I guess not... So the types are useless?</p>,
+  },
+  {
+    question: <p>Maybe, or maybe we used the wrong type?</p>,
+    answer: <p>Yes, I guess the correct type is still unknown</p>,
+  },
+  {
+    question: (
+      <p>
+        You mean like this?
+        <br />
+        <TS>{`
+function getPizzaHopefully(): Promise<unknown> {
+  return fetch("UberEats/pizza")
+}`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        I suppose... But how can we do anything with an <code>unknown</code>{" "}
+        value?
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        Good question! What if we had a function like this:
+        <br />
+        <TS>{`
+function smellsLikePizza(thing: unknown): boolean {
+  // nose-related code
+}`}</TS>
+        <br />
+        <br />
+        Could we use this to call <code>eatPizza()</code> properly?
+      </p>
+    ),
+    answer: (
+      <p>
+        Of course! I can type cast manually:
+        <br />
+        <TS>{`
+if (smellsLikePizza(thing)) {
+  const pizza = thing as Pizza
+  eatPizza(pizza)
+}
+`}</TS>
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        Could you create a function <TS>{`(thing: unknown) => Pizza`}</TS>?
+      </p>
+    ),
+    answer: <p>No?! You can't turn everything into Pizza</p>,
+  },
+  {
+    question: (
+      <p>
+        Would this do the trick?
+        <br />
+        <TS>{`
+function ensureItsPizza(thing: unknown): Pizza {
+  if (smellsLikePizza(thing)) {
+    return thing as Pizza
+  } else {
+    throw new Error("Someone messed up!")
+  }
+}
+
+eatPizza(ensureItsPizza(thing))
+`}</TS>
+      </p>
+    ),
+    answer: <p>I see, so the Error prevents us from eating the wrong order?</p>,
+  },
+  {
+    question: (
+      <p>
+        Exactly. Can you now rewrite our <code>getPizza()</code> to always
+        deliver Pizza?
+      </p>
+    ),
+    answer: (
+      <p>
+        Easy!
+        <br />
+        <TS>{`
+async function getPizza(): Promise<Pizza> {
+  const thing: unknown = await fetch("UberEats/pizza")
+  return ensureItsPizza(thing)
+}`}</TS>
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        That <code>ensureItsPizza</code> is called a <strong>Decoder</strong>.
+        <br />
+        Libraries like <a href="https://github.com/gcanti/io-ts">io-ts</a> help
+        you create them more easily!
+      </p>
+    ),
+    answer: <p>:)</p>,
+  },
+
   {
     section: "Enjoy your food!",
   },
