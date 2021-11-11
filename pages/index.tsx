@@ -113,6 +113,10 @@ const questions: Question[] = [
     question: (
       <p>
         <code>42</code> is also valid type. So are most literal values.
+        <br />
+        <TS>{`const x: 42 = 42;  // ok
+const x: 42 = 41;  // error
+`}</TS>
       </p>
     ),
     answer: (
@@ -168,6 +172,55 @@ const questions: Question[] = [
   },
 
   {
+    question: <p>Are there other ways to create compound types?</p>,
+    answer: <p>Maybe?</p>,
+  },
+
+  {
+    question: (
+      <p>
+        Typescript also supportt tuples.
+        <TS>{`type T = [boolean, boolean]`}</TS>
+      </p>
+    ),
+
+    answer: (
+      <p>
+        Let me guess, <code>[true, false]</code> has that type.
+      </p>
+    ),
+  },
+
+  {
+    question: <p>You are learning fast!</p>,
+    answer: <div />,
+  },
+
+  {
+    question: <p>How many values have this type?</p>,
+    answer: <p>4.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        Finally, you can also type functions, for example
+        <br />
+        <br />
+        <TS>{`type T = (x: number) => number`}</TS>
+        <br />
+        <br />
+        or
+        <br />
+        <br />
+        <TS>{`function f (x: number): number { ... }`}</TS>
+      </p>
+    ),
+
+    answer: <p>I knew that.</p>,
+  },
+
+  {
     section: "Combining ingredients",
   },
 
@@ -182,6 +235,71 @@ const questions: Question[] = [
         <code>1</code>, <code>24</code>, and <code>"blueberry"</code>.
       </p>
     ),
+  },
+
+  {
+    question: (
+      <p>
+        What about type <TS>{`type T = string & number`}</TS>?
+      </p>
+    ),
+    answer: (
+      <p>
+        That is impossible. There is no value that is both a string and a value.
+      </p>
+    ),
+  },
+
+  {
+    question: <p>So, how many values have that that type?</p>,
+    answer: <p>Zero.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        Exactly. The type <code>never</code> has also zero values.
+      </p>
+    ),
+    answer: <p>{`I don't see how that could be useful.`}</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What is a valid value for the type{" "}
+        <TS>{`type T = {x: number} | {y: number}`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        <TS>{`const obj: T = {x: 1}`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        What is a valid value for the type{" "}
+        <TS>{`type T = {x: number} & {y: number}`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        <TS>{`const obj: T = {x: 1, y: 3}`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        What is a valid value for the type
+        <TS>{`type T = {x: number} & {x: string}`}</TS>
+      </p>
+    ),
+    answer: <p>That is impossible as well.</p>,
   },
 ];
 
