@@ -3,7 +3,17 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/hljs/xcode";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createRouteLoader } from "next/dist/client/route-loader";
+
+const presenterMode = (() => {
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("presenter") !== null ? true : false;
+  } else {
+    return false;
+  }
+})();
 
 const TS: React.FC = ({ children }) => {
   return (
@@ -732,12 +742,16 @@ const Home: NextPage = () => {
 
   const [highlights, setHighlights] = useState<number[]>([]);
 
-  useEffect(() => {
+  const reload = useCallback(() => {
     const raw = localStorage.getItem("step");
     if (raw) {
       setStep(JSON.parse(raw));
     }
   }, []);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
@@ -763,6 +777,16 @@ const Home: NextPage = () => {
       document.removeEventListener("keydown", handler);
     };
   }, []);
+
+  useEffect(() => {
+    function handler() {
+      reload();
+    }
+    window.addEventListener("storage", handler);
+    return () => {
+      window.removeEventListener("storage", handler);
+    };
+  }, [reload]);
 
   useEffect(() => {
     function handler() {
@@ -793,30 +817,43 @@ const Home: NextPage = () => {
         <br />
         <br />
 
-        {questions.slice(0, questionNumber + 1).map((item, currentQuestion) => {
-          if ("section" in item) {
-            return <h2>{item.section}</h2>;
-          } else {
-            const { question, answer } = item;
-            const pastQuestion = currentQuestion < questionNumber;
-            return (
-              <Question
-                key={currentQuestion}
-                index={currentQuestion}
-                question={question}
-                showAnswer={
-                  currentQuestion < questionNumber ||
-                  (currentQuestion === questionNumber && isAnswer)
-                }
-                answer={answer}
-                past={pastQuestion && !highlights.includes(currentQuestion)}
-                onClick={() => {
-                  setHighlights((a) => [...a, currentQuestion]);
-                }}
-              />
-            );
-          }
-        })}
+        {questions
+          .slice(0, questionNumber + 1 + (presenterMode ? 1 : 0))
+          .map((item, currentQuestion) => {
+            if ("section" in item) {
+              return <h2>{item.section}</h2>;
+            } else {
+              const { question, answer } = item;
+              const pastQuestion = currentQuestion < questionNumber;
+              const futureQuestion = currentQuestion > questionNumber;
+
+              const style = {
+                width: "100%",
+                ...(futureQuestion
+                  ? { backgroundColor: "#e5e5e5", opacity: 0.5 }
+                  : {}),
+              };
+
+              return (
+                <div style={style}>
+                  <Question
+                    key={currentQuestion}
+                    index={currentQuestion}
+                    question={question}
+                    showAnswer={
+                      currentQuestion < questionNumber ||
+                      (currentQuestion === questionNumber && isAnswer)
+                    }
+                    answer={answer}
+                    past={pastQuestion && !highlights.includes(currentQuestion)}
+                    onClick={() => {
+                      setHighlights((a) => [...a, currentQuestion]);
+                    }}
+                  />
+                </div>
+              );
+            }
+          })}
       </main>
     </div>
   );
@@ -843,7 +880,12 @@ function Question({
     <div className="row" onClick={onClick}>
       <div className="index">{index}</div>
       <div className="question">{question}</div>
-      <div className="answer">{showAnswer && answer}</div>
+      <div
+        className="answer"
+        style={{ opacity: showAnswer ? 1 : presenterMode ? 0.1 : 0 }}
+      >
+        {answer}
+      </div>
       <style jsx>
         {`
           .row {
