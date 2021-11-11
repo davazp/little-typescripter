@@ -74,7 +74,7 @@ const questions: Question[] = [
   {
     question: (
       <p>
-        {"What is the type of the type "}
+        {"What is a value of type "}
         <code>null</code>?
       </p>
     ),
