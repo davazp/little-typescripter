@@ -32,12 +32,16 @@ const questions: Question[] = [
     answer: <p>Hi!</p>,
   },
   {
-    question: <p>Have you read the little schemer or the little typer?</p>,
+    question: (
+      <p>
+        Have you read <em>The Little Schemer</em> or <em>The Little Typer</em>?
+      </p>
+    ),
     answer: <p>No...</p>,
   },
   {
-    question: <p>Have you used Typescript?</p>,
-    answer: <p>I have! but I am not sure if I understand it well.</p>,
+    question: <p>Have you used TypeScript?</p>,
+    answer: <p>I have! But I am not sure if I understand it well.</p>,
   },
   {
     question: <p>{"Let's play around with it a bit!"}</p>,
@@ -121,7 +125,7 @@ const x: 42 = 41;  // error
     ),
     answer: (
       <p>
-        {`Oh! so it works for `} <code>true, false, "potato"</code>.
+        {`Oh! So it works for `} <code>true, false, "potato"</code>.
       </p>
     ),
   },
@@ -179,7 +183,8 @@ const x: 42 = 41;  // error
   {
     question: (
       <p>
-        Typescript also supportt tuples.
+        TypeScript also supports tuples.
+        <br />
         <TS>{`type T = [boolean, boolean]`}</TS>
       </p>
     ),
@@ -245,7 +250,8 @@ const x: 42 = 41;  // error
     ),
     answer: (
       <p>
-        That is impossible. There is no value that is both a string and a value.
+        That is impossible. There is no value that is both a <code>string</code>{" "}
+        and a <code>number</code>.
       </p>
     ),
   },
@@ -305,7 +311,7 @@ const x: 42 = 41;  // error
   {
     question: (
       <p>
-        Is <TS>{`{x: 1, y: 2}`}</TS> a valid valud for that type?
+        Is <TS>{`{x: 1, y: 2}`}</TS> a valid value for that type?
       </p>
     ),
     answer: <p>Yes</p>,
