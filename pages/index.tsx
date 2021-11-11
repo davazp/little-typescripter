@@ -57,7 +57,7 @@ const questions: Question[] = [
     ),
     answer: (
       <p>
-        {"That's easy! It's"} <code>number</code>.
+        {"That's easy as pie! It's"} <code>number</code>.
       </p>
     ),
   },
@@ -375,6 +375,95 @@ const obj: T = {x: 1, y: 2, z: 0}
         the union.
       </p>
     ),
+  },
+
+  {
+    section: "Bread or Butter",
+  },
+
+  {
+    question: (
+      <p>
+        {`Let's go shopping`}
+        <br />
+        <TS>
+          {`
+type Bread = {
+  type: 'sour' | 'corn' | 'brioche',
+  weight: number
+}
+
+type Butter = { salty: boolean }
+
+type SideDish = Bread | Butter
+
+`}
+        </TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        Got it. Should I refrigate it?
+        <br />
+        <br />
+        <TS>{`function refrigerate (x: Bread | Butter) {
+  // ...
+}`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        You can use regular control flow `(if, throw, ...)` to{" "}
+        <b>refine the type</b>
+      </p>
+    ),
+    answer: <p>Can you show me an example?</p>,
+  },
+
+  {
+    question: (
+      <p>
+        <TS>{`function refrigerate (x: Bread | Butter) {
+  if ('type' in x) {
+    // x is now type Bread
+  } else {
+    // x is now type Butter
+  }
+}`}</TS>
+      </p>
+    ),
+
+    answer: <p>{`That's useful. Now I know.`}</p>,
+  },
+
+  {
+    question: (
+      <p>
+        There is a problem with this code, though. <br />
+        Can you find some <b>butterbread</b>?
+      </p>
+    ),
+    answer: (
+      <p>
+        Oops. I found this <br />
+        <br />
+        <TS>{`const butterbread: Butter & Bread = {
+  type: 'sour',
+  weight: 500,
+  salty: false
+}`}</TS>{" "}
+        <br />
+        <br />
+        Looks awful.
+      </p>
+    ),
+  },
+
+  {
+    section: "Fining dining with Curry and Howard",
   },
 
   {
