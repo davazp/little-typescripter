@@ -5,10 +5,26 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/hljs/xcode";
 import { useEffect, useState } from "react";
 
-interface Question {
-  question: JSX.Element;
-  answer: JSX.Element;
-}
+const TS: React.FC = ({ children }) => {
+  return (
+    <SyntaxHighlighter
+      customStyle={{ display: "inline-block", padding: 0, fontSize: "14px" }}
+      language="typescript"
+      style={style}
+    >
+      {children}
+    </SyntaxHighlighter>
+  );
+};
+
+type Question =
+  | {
+      question: JSX.Element;
+      answer: JSX.Element;
+    }
+  | {
+      section: string;
+    };
 
 const questions: Question[] = [
   {
@@ -26,6 +42,10 @@ const questions: Question[] = [
   {
     question: <p>{"Let's play around with it a bit!"}</p>,
     answer: <p>Ok!</p>,
+  },
+
+  {
+    section: "Basic ingredients!",
   },
 
   {
@@ -148,6 +168,10 @@ const questions: Question[] = [
   },
 
   {
+    section: "Combining ingredients",
+  },
+
+  {
     question: (
       <p>
         What are some values for the type <code>string | number</code>?
@@ -158,17 +182,6 @@ const questions: Question[] = [
         <code>1</code>, <code>24</code>, and <code>"blueberry"</code>.
       </p>
     ),
-  },
-
-  {
-    question: (
-      <p>
-        How many values are with the type
-        <br />
-        <code>type Fruit = "Banana" | "Strawberry" | "Orange"</code>?
-      </p>
-    ),
-    answer: <p>3 values.</p>,
   },
 ];
 
@@ -226,9 +239,11 @@ const Home: NextPage = () => {
         <br />
         <br />
 
-        {questions
-          .slice(0, questionNumber + 1)
-          .map(({ question, answer }, currentQuestion) => {
+        {questions.slice(0, questionNumber + 1).map((item, currentQuestion) => {
+          if ("section" in item) {
+            return <h2>{item.section}</h2>;
+          } else {
+            const { question, answer } = item;
             const pastQuestion = currentQuestion < questionNumber;
             return (
               <Question
@@ -243,7 +258,8 @@ const Home: NextPage = () => {
                 past={pastQuestion}
               />
             );
-          })}
+          }
+        })}
       </main>
     </div>
   );
@@ -298,17 +314,5 @@ function Question({
     </div>
   );
 }
-
-const TS: React.FC = ({ children }) => {
-  return (
-    <SyntaxHighlighter
-      customStyle={{ display: "inline-block", padding: 0, fontSize: "16px" }}
-      language="typescript"
-      style={style}
-    >
-      {children}
-    </SyntaxHighlighter>
-  );
-};
 
 export default Home;
