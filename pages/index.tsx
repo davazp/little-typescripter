@@ -807,12 +807,12 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>The Little TypeScripter</title>
-        <meta name="description" content="The Little Typescripter" />
+        <meta name="description" content="The Little TypeScripter" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>The Little Typescripter</h1>
+        <h1 className={styles.title}>The Little TypeScripter</h1>
 
         <br />
         <br />
