@@ -21,7 +21,7 @@ const questions: Question[] = [
   },
   {
     question: <p>Have you used Typescript?</p>,
-    answer: <p>A bit, but I am not sure if I understand it all.</p>,
+    answer: <p>I have! but I am not sure if I understand it well.</p>,
   },
   {
     question: <p>{"Let's play around with it a bit!"}</p>,
@@ -41,6 +41,135 @@ const questions: Question[] = [
       </p>
     ),
   },
+
+  {
+    question: <p>{"Is it the only valid type?"}</p>,
+    answer: (
+      <p>
+        {"It could also be "} <code>number | undefined</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        {"What is the type of the type "}
+        <code>null</code>?
+      </p>
+    ),
+    answer: (
+      <p>
+        <code>null</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        {"How many values have type  "}
+        <code>null</code>?
+      </p>
+    ),
+    answer: (
+      <p>
+        Just one: <code>null</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        {"Is there a type that has  "}
+        <code>42</code> as its only value?
+      </p>
+    ),
+    answer: <p>{`I don't know.`}</p>,
+  },
+
+  {
+    question: (
+      <p>
+        <code>42</code> is also valid type. So are most literal values.
+      </p>
+    ),
+    answer: (
+      <p>
+        {`Oh! so it works for `} <code>true, false, "potato"</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>Indeed! They accept the corresponding type as a value only.</p>
+    ),
+    answer: <p>{`Cool. `}</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What are some values of the type <code>{`{ x: null }`}</code> ?
+      </p>
+    ),
+    answer: (
+      <p>
+        As before, <code>{`{x: null }`}</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: <p>Is there any other value with that type??</p>,
+    answer: <p>It should not...?</p>,
+  },
+
+  {
+    question: (
+      <p>
+        Well, <code>{`{ x: null, y: 0}`}</code> is also a valid value for that
+        type.
+      </p>
+    ),
+    answer: <p>How?</p>,
+  },
+
+  {
+    question: (
+      <p>
+        You should read interface types as "at least those properties". But it
+        might have more!
+      </p>
+    ),
+    answer: <p>I see!</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What are some values for the type <code>string | number</code>?
+      </p>
+    ),
+    answer: (
+      <p>
+        <code>1</code>, <code>24</code>, and <code>"blueberry"</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        How many values are with the type
+        <br />
+        <code>type Fruit = "Banana" | "Strawberry" | "Orange"</code>?
+      </p>
+    ),
+    answer: <p>3 values.</p>,
+  },
 ];
 
 const Home: NextPage = () => {
@@ -54,6 +183,7 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
 
