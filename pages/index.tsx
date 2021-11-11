@@ -525,7 +525,7 @@ type SideDish = Bread | Butter
   },
 
   {
-    section: "Fining dining at Curry & Howard's",
+    section: "Spicy Curry at Howard's",
   },
 
   {
