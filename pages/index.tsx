@@ -295,7 +295,7 @@ const x: 42 = 41;  // error
   {
     question: (
       <p>
-        What is a valid value for the type
+        What is a valid value for the type{` `}
         <TS>{`type T = {x: number} & {x: string}`}</TS>
       </p>
     ),
@@ -306,6 +306,8 @@ const x: 42 = 41;  // error
 const Home: NextPage = () => {
   const [step, setStep] = useState(0);
 
+  const [highlights, setHighlights] = useState<number[]>([]);
+
   useEffect(() => {
     const raw = localStorage.getItem("step");
     if (raw) {
@@ -315,6 +317,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
+    setHighlights([]);
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
 
@@ -373,7 +376,10 @@ const Home: NextPage = () => {
                   (currentQuestion === questionNumber && isAnswer)
                 }
                 answer={answer}
-                past={pastQuestion}
+                past={pastQuestion && !highlights.includes(currentQuestion)}
+                onClick={() => {
+                  setHighlights((a) => [...a, currentQuestion]);
+                }}
               />
             );
           }
@@ -389,6 +395,7 @@ interface QuestionProps {
   answer: JSX.Element;
   showAnswer: boolean;
   past: boolean;
+  onClick: () => void;
 }
 
 function Question({
@@ -397,9 +404,10 @@ function Question({
   answer,
   showAnswer,
   past,
+  onClick,
 }: QuestionProps) {
   return (
-    <div className="row">
+    <div className="row" onClick={onClick}>
       <div className="index">{index}</div>
       <div className="question">{question}</div>
       <div className="answer">{showAnswer && answer}</div>
