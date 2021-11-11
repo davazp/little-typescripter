@@ -277,6 +277,21 @@ const x: 42 = 41;  // error
   {
     question: (
       <p>
+        What type is <code>string | never</code> equal to?
+      </p>
+    ),
+    answer: (
+      <p>
+        <code>string</code>
+        {`. Because any value with that type, must be of type `}{" "}
+        <code>string</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
         What is a valid value for the type{" "}
         <TS>{`type T = {x: number} & {y: number}`}</TS>
       </p>
