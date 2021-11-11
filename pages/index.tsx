@@ -44,6 +44,10 @@ const questions: Question[] = [
     answer: <p>I have! But I am not sure if I understand it well.</p>,
   },
   {
+    question: <p>Have you have dinner yet?</p>,
+    answer: <p>No, {`I'm not `} hungry yet.</p>,
+  },
+  {
     question: <p>{"Let's play around with it a bit!"}</p>,
     answer: <p>Ok!</p>,
   },
