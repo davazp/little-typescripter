@@ -147,7 +147,7 @@ const x: 42 = 41;  // error
   },
 
   {
-    question: <p>Is there any other value with that type??</p>,
+    question: <p>Is there any other value with that type?</p>,
     answer: <p>It should not...?</p>,
   },
 
@@ -268,20 +268,6 @@ const x: 42 = 41;  // error
     question: (
       <p>
         What is a valid value for the type{" "}
-        <TS>{`type T = {x: number} | {y: number}`}</TS>
-      </p>
-    ),
-    answer: (
-      <p>
-        <TS>{`const obj: T = {x: 1}`}</TS>
-      </p>
-    ),
-  },
-
-  {
-    question: (
-      <p>
-        What is a valid value for the type{" "}
         <TS>{`type T = {x: number} & {y: number}`}</TS>
       </p>
     ),
@@ -300,6 +286,93 @@ const x: 42 = 41;  // error
       </p>
     ),
     answer: <p>That is impossible as well.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What is a valid value for the type{" "}
+        <TS>{`type T = {x: number} | {y: number}`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        <TS>{`const obj: T = {x: 1}`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        Is <TS>{`{x: 1, y: 2}`}</TS> a valid valud for that type?
+      </p>
+    ),
+    answer: <p>Yes</p>,
+  },
+
+  {
+    question: (
+      <p>
+        <TS>
+          {`
+type T = {x: number, z: number}
+       | {y: number, z: number}
+const obj: T = {x: 1, y: 2}
+`}
+        </TS>{" "}
+        <br /> Is this valid?
+      </p>
+    ),
+    answer: (
+      <p>
+        No. It fails. Because the value does not belong to any of the individual
+        types.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        <TS>
+          {`type T = {x: number} | {y: number}
+const obj: T = {x: 1, y: 2}
+`}
+        </TS>{" "}
+        <br /> Why is this valid?
+      </p>
+    ),
+    answer: (
+      <p>
+        <code>obj</code> is a valid value for both <code>{`{x: number}`}</code>
+        <br /> and <code>{`{y: number}`}</code>, so it must be also in the
+        union.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        Why is it valid
+        <br />
+        <TS>
+          {`
+type T = {x: number, z: number}
+       | {y: number, z: number}
+const obj: T = {x: 1, y: 2, z: 0}
+`}
+        </TS>
+        ?
+      </p>
+    ),
+    answer: (
+      <p>
+        <code>obj</code> is a valid value for both types so it must be also in
+        the union.
+      </p>
+    ),
   },
 ];
 
