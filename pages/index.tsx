@@ -782,7 +782,7 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>The Little Typescripter</title>
+        <title>The Little TypeScripter</title>
         <meta name="description" content="The Little Typescripter" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
