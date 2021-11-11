@@ -549,7 +549,6 @@ type SideDish = Bread | Butter
     answer: <p></p>,
   },
 
-
   { section: "The Promise of Pizza" },
 
   {
@@ -730,11 +729,106 @@ async function getPizza(): Promise<Pizza> {
   },
 
   {
+    section: "Generics",
+  },
+
+  {
+    question: (
+      <p>
+        What is a good type for <br />
+        <br />
+        <TS>{`function id (x) { return x }`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        hm... <br />
+        <br />
+        <TS>{`function id (x: number): number {
+  return x;
+}
+  `}</TS>
+        ?
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        Well, <code>x</code> could be as well a string for example, right?
+      </p>
+    ),
+    answer: (
+      <p>
+        what about <br />
+        <br />
+        <TS>{`function id (x: number | string): number | string {
+  return x;
+}
+`}</TS>
+        ?
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>Does this type guarantee the same type as the argument is returned?</p>
+    ),
+    answer: (
+      <p>
+        Not really <br />
+        <br />
+        <TS>{`function id (x: number | string): number | string {
+  return "foo";
+}
+`}</TS>
+        <br />
+        For example, this implementation returns a string even if the argument
+        is number.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        <b>Generic</b> parameters introduce type variables that solve this
+        issue.
+        <br />
+        <br />
+        <TS>{`function id<T>(x: T): T {
+  return x;
+}`}</TS>
+      </p>
+    ),
+    answer: <p>I see. Now the return type is always the same as the input.</p>,
+  },
+
+  {
+    question: <p>How many functions have the same type?</p>,
+    answer: <p>Depends how you consider two functions the same.</p>,
+  },
+  {
+    question: (
+      <p>
+        How many functions have the type <br />
+        <br />
+        <TS>{`function f<T>(x: number): T { ... }`}</TS> <br />?
+      </p>
+    ),
+    answer: (
+      <p>None? How can we return something of a type we don't know or have?</p>
+    ),
+  },
+
+  {
     section: "Spicy Curry at Howard's",
   },
   {
     question: <p>We can leave this for another time!</p>,
-    answer: <p></p>
+    answer: <p></p>,
   },
 
   {
@@ -767,9 +861,9 @@ const Home: NextPage = () => {
     localStorage.setItem("step", JSON.stringify(step));
   }, [step]);
 
-  useEffect(()=>{
-    localStorage.setItem('highlights', JSON.stringify(highlights));
-  }, [highlights])
+  useEffect(() => {
+    localStorage.setItem("highlights", JSON.stringify(highlights));
+  }, [highlights]);
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
