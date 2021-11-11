@@ -374,6 +374,10 @@ const obj: T = {x: 1, y: 2, z: 0}
       </p>
     ),
   },
+
+  {
+    section: "Enjoy your food!",
+  },
 ];
 
 const Home: NextPage = () => {
