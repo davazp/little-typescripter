@@ -469,7 +469,7 @@ type SideDish = Bread | Butter
   },
 
   {
-    section: "Fining dining with Curry and Howard",
+    section: "Fining dining at Curry & Howard's",
   },
 
   {
