@@ -491,7 +491,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     function handler(e: KeyboardEvent) {
-      console.log(e);
       switch (e.key) {
         case " ":
         case "ArrowRight":
@@ -523,8 +522,6 @@ const Home: NextPage = () => {
 
   const questionNumber = (step / 2) | 0;
   const isAnswer = step % 2 === 1;
-
-  console.log({ step, questionNumber, isAnswer });
 
   return (
     <div className={styles.container}>
