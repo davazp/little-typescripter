@@ -7,7 +7,10 @@ body {
 }
 
 a {
-  color: inherit;
+  color: rgb(38, 73, 153);
+  text-decoration: underline;
+}
+a:hover {
   text-decoration: none;
 }
 
@@ -16,9 +19,9 @@ a {
 }
 
 pre {
-    margin: 0;
+  margin: 0;
 }
 
 code {
-    color: rgb(92, 38, 153);
+  color: rgb(92, 38, 153);
 }
