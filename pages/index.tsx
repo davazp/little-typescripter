@@ -16,29 +16,29 @@ const questions: Question[] = [
     answer: <p>Hi!</p>,
   },
   {
-    question: <p>What is the type of 42?</p>,
-    answer: (
-      <p>
-        That is easy! it is <code>number</code>
-      </p>
-    ),
+    question: <p>Have you read the little schemer or the little typer?</p>,
+    answer: <p>No...</p>,
   },
   {
-    question: <p>Is it the only type?</p>,
-    answer: (
-      <p>
-        Well, you could also use <code>number | null</code>, for example.
-      </p>
-    ),
+    question: <p>Have you used Typescript?</p>,
+    answer: <p>A bit, but I am not sure if I understand it all.</p>,
   },
   {
-    question: <p>Is it the only type?</p>,
+    question: <p>{"Let's play around with it a bit!"}</p>,
+    answer: <p>Ok!</p>,
+  },
+
+  {
+    question: (
+      <p>
+        {"What's the type of "}
+        <code>42</code>?
+      </p>
+    ),
     answer: (
-      <div>
-        <p>
-          Well, you could also use <code>number | null</code>, for example.
-        </p>
-      </div>
+      <p>
+        {"That's easy! It's"} <code>number</code>.
+      </p>
     ),
   },
 ];
@@ -103,6 +103,7 @@ const Home: NextPage = () => {
             return (
               <Question
                 key={currentQuestion}
+                index={currentQuestion}
                 question={question}
                 showAnswer={
                   currentQuestion < questionNumber ||
@@ -119,15 +120,23 @@ const Home: NextPage = () => {
 };
 
 interface QuestionProps {
+  index: number;
   question: JSX.Element;
   answer: JSX.Element;
   showAnswer: boolean;
   past: boolean;
 }
 
-function Question({ question, answer, showAnswer, past }: QuestionProps) {
+function Question({
+  index,
+  question,
+  answer,
+  showAnswer,
+  past,
+}: QuestionProps) {
   return (
     <div className="row">
+      <div className="index">{index}</div>
       <div className="question">{question}</div>
       <div className="answer">{showAnswer && answer}</div>
       <style jsx>
@@ -140,11 +149,19 @@ function Question({ question, answer, showAnswer, past }: QuestionProps) {
             padding-top: 10px;
             padding-bottom: 10px;
             opacity: ${past ? 0.3 : 1};
+            gap: 20px;
           }
 
           .question,
           .answer {
             width: 100%;
+          }
+
+          .index {
+            position: "absolute";
+            left: 0;
+            top: 0;
+            font-size: 0.7em;
           }
         `}
       </style>
