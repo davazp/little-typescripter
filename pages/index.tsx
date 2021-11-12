@@ -887,6 +887,127 @@ type SideDish = Bread | Butter
   },
 
   {
+    section: "Fine dining type-level dessert",
+  },
+
+  {
+    question: <p>Oh, you are still there!</p>,
+    answer: <p>Of course!</p>,
+  },
+
+  {
+    question: <p>{`It's time for some dessert.`}</p>,
+    answer: <p>What do you have?</p>,
+  },
+
+  {
+    question: <p>It depends. Do you have any allergies</p>,
+    answer: (
+      <p>
+        <TS>{`type Allergies = 'almond' | 'egg'`}</TS>
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        What is a value for
+        <br />
+        <TS>{`
+const x: Safe<"chocolate"> = ...
+`}</TS>
+      </p>
+    ),
+    answer: <p>true?</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What is a value for
+        <br />
+        <TS>{`
+const x: Safe<"egg"> = ...
+`}</TS>
+      </p>
+    ),
+    answer: <p>false.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What is a value for
+        <br />
+        <TS>{`
+const x: Safe<"egg" | "chocolate"> = ...
+`}</TS>
+      </p>
+    ),
+    answer: <p>It depends?.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        Type parameters in conditionals that are not wrapped are <b>naked</b>.
+      </p>
+    ),
+    answer: <p>How is that releated to my dessert?</p>,
+  },
+
+  {
+    question: <p>Naked type parameters distribute over union.</p>,
+    answer: <p>I am still lost.</p>,
+  },
+
+  {
+    question: (
+      <p>
+        What is a value for
+        <br />
+        <TS>{`
+type T = Safe<"egg" | "chocolate">
+`}</TS>
+        <br /> must be equal to <br />
+        <TS>{`
+type T = Safe<"egg"> | Safe<"chocolate">
+`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        I see. Then I can evaluate each Safe individually to get{" "}
+        <code>boolean</code>.
+      </p>
+    ),
+  },
+
+  {
+    question: (
+      <p>
+        Exactly <br />
+        <TS>{`
+type T = Safe<"egg"> | Safe<"chocolate">
+
+type T =       false |              true
+`}</TS>
+        <br />
+      </p>
+    ),
+    answer: <p>It makes sense, I guess.</p>,
+  },
+
+  {
+    section: "Conditional Persimmon & Recursive Parsley",
+  },
+  {
+    question: <p>We can leave this for another time!</p>,
+    answer: <p></p>,
+  },
+
+  {
     section: "Spicy Curry at Howard's",
   },
   {
