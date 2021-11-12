@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  assetPrefix: "./",
+  basePath: "/little-typescripter",
+  assetPrefix: "/little-typescripter/",
 };
