@@ -782,6 +782,9 @@ const Home: NextPage = () => {
         case "ArrowLeft":
           setStep((s) => Math.max(0, s - 1));
           return;
+        case "Home":
+          setStep(0);
+          return;
       }
     }
     document.addEventListener("keydown", handler);
