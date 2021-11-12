@@ -583,19 +583,19 @@ type SideDish = Bread | Butter
   {
     question: (
       <p>
-        What if we call <code>fetch("UberEats/pizza")</code>?
+        What if we specifically call <code>fetch("UberEats/pizza")</code>?
       </p>
     ),
     answer: (
       <p>
-        Easy, it's <code>{"Promise<Pizza>"}</code> now
+        Then we can narrow it down to <code>{"Promise<Pizza>"}</code>
       </p>
     ),
   },
   {
     question: (
       <p>
-        So this should be correct:
+        So this should work now:
         <br />
         <TS>{`
 function getPizza(): Promise<Pizza> {
@@ -621,13 +621,13 @@ eatPizza(pizza)`}</TS>
     answer: <p>I guess not... So the types are useless?</p>,
   },
   {
-    question: <p>Maybe, or maybe we used the wrong type?</p>,
-    answer: <p>Yes, I guess the correct type is still unknown</p>,
+    question: <p>Or maybe we used the wrong type?</p>,
+    answer: <p>Yes, but we don't really know what type it will be</p>,
   },
   {
     question: (
       <p>
-        You mean like this?
+        What if we consider the type to be <code>unknown</code> explicitly?
         <br />
         <TS>{`
 function getPizzaHopefully(): Promise<unknown> {
@@ -653,17 +653,74 @@ function smellsLikePizza(thing: unknown): boolean {
 }`}</TS>
         <br />
         <br />
-        Could we use this to call <code>eatPizza()</code> properly?
+        Could you use this to call <code>eatPizza()</code> safely?
       </p>
     ),
     answer: (
       <p>
-        Of course! I can type cast manually:
+        Of course! We can validate the result first:
+        <br />
+        <TS>{`
+if (smellsLikePizza(thing)) {
+  eatPizza(thing)
+}
+`}</TS>
+      </p>
+    ),
+  },
+  {
+    question: <p>Looks good! Does it also pass the type-check?</p>,
+    answer: (
+      <p>
+        No... <code>thing</code> is still <code>unknown</code>
+      </p>
+    ),
+  },
+  {
+    question: <p>Any idea how to make it work?</p>,
+    answer: (
+      <p>
+        Well, I'm pretty sure it is <code>Pizza</code>, so I could just manually
+        cast the type:
         <br />
         <TS>{`
 if (smellsLikePizza(thing)) {
   const pizza = thing as Pizza
   eatPizza(pizza)
+}
+`}</TS>
+        <br />
+        <br />
+      </p>
+    ),
+  },
+  {
+    question: (
+      <p>
+        That works! But the type cast is not very elegant. How about we make TS
+        understand what <code>smellsLikePizza</code> is doing?
+      </p>
+    ),
+    answer: <p>Sound good, but how?</p>,
+  },
+  {
+    question: (
+      <p>
+        We can create our own type guard:
+        <br />
+        <TS>{`
+function smellsLikePizza(thing: unknown): thing is Pizza {
+  // the same nose-related code
+}`}</TS>
+      </p>
+    ),
+    answer: (
+      <p>
+        Cool! So now this should work again
+        <br />
+        <TS>{`
+if (smellsLikePizza(thing)) {
+  eatPizza(thing)
 }
 `}</TS>
       </p>
@@ -672,10 +729,15 @@ if (smellsLikePizza(thing)) {
   {
     question: (
       <p>
-        Could you create a function <TS>{`(thing: unknown) => Pizza`}</TS>?
+        Let's go a bit further! Can you create a function{" "}
+        <TS>{`(thing: unknown) => Pizza`}</TS>?
       </p>
     ),
-    answer: <p>No?! You can't turn everything into Pizza</p>,
+    answer: (
+      <p>
+        No?! You can't turn <em>everything</em> into Pizza
+      </p>
+    ),
   },
   {
     question: (
@@ -685,7 +747,7 @@ if (smellsLikePizza(thing)) {
         <TS>{`
 function ensureItsPizza(thing: unknown): Pizza {
   if (smellsLikePizza(thing)) {
-    return thing as Pizza
+    return thing
   } else {
     throw new Error("Someone messed up!")
   }
@@ -695,7 +757,7 @@ eatPizza(ensureItsPizza(thing))
 `}</TS>
       </p>
     ),
-    answer: <p>I see, so the Error prevents us from eating the wrong order?</p>,
+    answer: <p>I see, the Error prevents us from eating the wrong order</p>,
   },
   {
     question: (
@@ -711,7 +773,8 @@ eatPizza(ensureItsPizza(thing))
         <TS>{`
 async function getPizza(): Promise<Pizza> {
   const thing: unknown = await fetch("UberEats/pizza")
-  return ensureItsPizza(thing)
+  const pizza: Pizza = ensureItsPizza(thing)
+  return pizza
 }`}</TS>
       </p>
     ),
